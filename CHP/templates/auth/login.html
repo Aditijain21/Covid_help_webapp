@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block navTitle %}Sign In{% endblock navTitle %}
+{% block body %}
+<div class="container ">
+    {% if messages %}
+        {% for message in messages %}
+            <small class="orange accent-2 {% if message.tags %}{{message.tags}}{% endif %}">{{message}}</small>
+        {% endfor %}
+    {% endif %}
+    <form action="" method="post">
+    {% csrf_token %}
+    {% for el in form %}
+        <div class="container">
+            <div class="input-field">
+                {{el}}
+            </div>
+        <small class="orange accent-2">{{el.errors|striptags}}</small>
+        </div>
+    {% endfor %}
+    <center>
+    <button type="submit" class="btn blue lighten-2">Submit</button>
+    </center>
+    {% if form.non_field_errors %}
+        {% for error in form.non_field_errors %}
+            <small class="orange accent-2">{{error}}</small>
+        {% endfor %}
+    {% endif %}
+    </form>
+    <center>
+        <h6>Or <a href="/signup">Create Account</a></h6>
+    </center>
+</div>
+{% endblock body %}
+{% block footer %}
+    <h6>Having Trouble Signing In? <a href="password_reset">Forgot Password</a></h6>
+{% endblock footer %}

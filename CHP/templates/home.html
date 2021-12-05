@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block navTitle %}ICHG{% endblock navTitle %}
+{% block body %}
+<div class="hero mx-auto desktopOrPhone bg-white w-100 py-4 sticky z-40">
+    <img class="rounded-2xl w-4/5 mx-auto object-contain shadow-lg" src="https://images.moneycontrol.com/static-mcnews/2021/04/Modi-770x433.jpg" alt="">
+</div> 
+<script>
+    topHeight = document.querySelector('#mainNav').clientHeight;
+    document.querySelector('.hero').setAttribute('style','top:'+topHeight+'px!important');
+</script>
+{% if messages %}
+    {% for message in messages %}
+        <small class="orange accent-2 {% if message.tags %}{{message.tags}}{% endif %}">{{message}}</small>
+    {% endfor %}
+{% endif %}
+<div class="grid gap-4 grid-cols-3 mx-4 my-2">
+    {% for category in categories %}
+    {% if category.is_shown %}
+    <a href="/breifpage/{{category.name}}" class="border-2 flex flex-col items-center text-center text-black font-semibold justify-center border-green-400 shadow-lg rounded-lg p-2">
+        <img src="{{category.icon.url}}" width="44px" height="44px"></img>
+        {{category.name}}
+    </a>
+    {% endif %}
+    {% endfor %}
+</div>
+{% endblock body %}
+
+{% block footer %}
+<div class="flex h-full items-center justify-around teal accent-3 p-2">
+    <a href="#" class="no-underline text-center text-black">
+        <i class="ti ti-2x ti-home"></i>
+        <br>
+        <p class="font-semibold">Home</p> 
+    </a>
+    <a href="#" class="no-underline text-center text-black">
+        <i class="ti ti-2x ti-news"></i>
+        <br>
+        <p class="font-semibold">News</p> 
+        </a>
+        <a href="#" class="no-underline text-center text-black">
+        <i class="ti ti-2x ti-report-medical"></i>
+        <br>
+        <p class="font-semibold">Medical</p> 
+        </a>
+        <a href="#" class="no-underline text-center text-black">
+        <i class="ti ti-2x ti-ambulance"></i>
+        <br>
+        <p class="font-semibold">Ambulance</p> 
+        </a>
+</div>
+{% endblock footer %}

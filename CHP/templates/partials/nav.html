@@ -1,0 +1,43 @@
+ <nav id="mainNav" class="sticky top-0 z-50">
+    <div class="flex flex-row h-full items-center justify-between teal accent-3">
+      <div class="flex flex-row h-full items-center">
+      <a href="#" data-target="mobile-demo" class="sidenav-trigger text-black"><i class="ti ti-menu-2"></i></a>
+      <a href="#!" id="appTitle" class="text-2xl text-black md:px-4">ICHG</a>
+      </div>
+    </div>
+  </nav>
+
+  <ul class="sidenav flex flex-col justify-between" id="mobile-demo">
+    <div>
+        <div class="flex items-center p-4 blue accent-2">
+            <a id="userBtn" class="btn-floating btn-large waves-effect waves-light z-depth-0 indigo lighten-1"><i class="ti ti-2x ti-user"></i></a>    
+        </div>
+        <div id="topnav">
+            <li><a class="font-semibold" href="/">Home</a></li>
+            {% if request.user.is_authenticated %}
+            <li><a class="font-semibold" href="/dashboard">Dashboard</a></li>
+            <li><a class="font-semibold" href="/changeprof">My Account</a></li>
+            {% endif %}
+        </div>
+    </div>
+    <div>
+      <hr class="h-0.5 w-11/12 bg-gray-400 mx-auto">
+      {% if not request.user.is_authenticated %}
+      <li><a class="font-semibold" href="/signin"><i class="ti ti-lg ti-login"></i> Sign In</a></li>
+      <li><a class="font-semibold" href="/signup"><i class="ti ti-lg ti-user-plus"></i> Sign Up</a></li>
+      {% else %}
+      <li><a class="font-semibold" href="/signout"><i class="ti ti-lg ti-logout"></i> Sign Out</a></li>
+      {% endif %}
+    </div>
+  </ul>
+  <script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.sidenav');
+    var instances = M.Sidenav.init(elems);
+  });
+  
+  document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.modal');
+    var instances = M.Modal.init(elems);
+  });
+  </script>

@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% block navTitle %}Manage {{name}}{% endblock navTitle %}
+{% block body %}
+{% if messages %}
+    {% for message in messages %}
+        <small class="orange accent-2 {% if message.tags %}{{message.tags}}{% endif %}">{{message}}</small>
+    {% endfor %}
+{% endif %}
+<div class="mx-4 my-8 overflow-x-auto relative z-0">
+    <table class="centered striped">
+        <thead class="bg-gray-200">
+            <tr>
+            {% if users %}
+                <th>User</th>
+                <th>Email</th>
+                <th>Role</th>
+            {% elif categories %}
+                <th>Name</th>
+                <th>Icon</th>
+                <th>Visible</th>
+            {% elif alldata %}
+                <th>Name</th>
+                <th>Verified</th>
+                <th>Visible</th>
+            {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+        {% if users %}
+            {% for user in users %}
+            {% if user != request.user %}
+                <tr>
+                    <td><a href="/edit/user/{{user.id}}">{{user.full_name}}</a></td>
+                    <td><a href="/edit/user/{{user.id}}">{{user.email}}</a></td>
+                    {% for userGroup in user.groups.all %}
+                    <td><a href="/edit/user/{{user.id}}">{{userGroup}}</a></td>
+                    {% endfor %}
+                </tr>
+            {% endif %}
+            {% endfor %}
+        {% elif categories %}
+            {% for category in categories %}
+                <tr>
+                    <td><a href="/edit/categories/{{category.id}}">{{category.name}}</a></td>
+                    <td><a href="/edit/categories/{{category.id}}"><img class="mx-auto" src="{{category.icon.url}}" width="25px" height="25px"></img></a></td>
+                    <td><a href="/edit/categories/{{category.id}}">{% if category.is_shown %}<i class="ti ti-lg text-green-400 ti-check"></i>{% else %}<i class="ti ti-lg text-red-400 ti-x"></i>{% endif %}</a></td>
+                </tr>
+            {% endfor %}
+        {% elif alldata %}
+            {% for data in alldata %}
+                <tr>
+                    <td><a href="/editData/{{data.category}}/{{data.id}}">{{data.name}}</a></td>
+                    <td><a href="/editData/{{data.category}}/{{data.id}}">{% if data.is_verified %}<i class="ti ti-lg text-green-400 ti-check"></i>{% else %}<i class="ti ti-lg text-red-400 ti-x"></i>{% endif %}</a></td>
+                    <td><a href="/editData/{{data.category}}/{{data.id}}">{% if data.is_shown %}<i class="ti ti-lg text-green-400 ti-check"></i>{% else %}<i class="ti ti-lg text-red-400 ti-x"></i>{% endif %}</a></td>
+                </tr>
+            {% endfor %}
+        {% else %}
+            <div class="my-4 px-4 text-center">
+                <h5>No {{name}} to Display</h5>
+            </div>
+        {% endif %}
+        </tbody>
+    </table>
+</div>
+{% endblock body %}
+{% block footer %}
+    <div class="my-2 float-right mr-4">
+        {% if name == 'Categories' %}
+        <a href="/add/categories" class="btn-floating btn-large waves-effect waves-light red"><i class="ti-2x ti ti-plus"></i></a>
+        {% elif name == 'Users' %}
+        <a href="/add/user" class="btn-floating btn-large waves-effect waves-light red"><i class="ti-2x ti ti-plus"></i></a>
+        {% elif 'Data' in name %}
+        <a href="/addData/{{category}}" class="btn-floating btn-large waves-effect waves-light red"><i class="ti-2x ti ti-plus"></i></a>
+        {% endif %}
+    </div>
+{% endblock footer %}
